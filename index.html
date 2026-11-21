@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="rw">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Isoko ry'Ubumenyi - Rwanda E-Learning Hub</title>
+  <meta name="theme-color" content="#0f766e" />
+  <style>
+    :root {
+      --primary: #0f766e;
+      --primary-dark: #115e59;
+      --primary-light: #f0fdfa;
+      --accent: #eab308;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --success: #16a34a;
+      --danger: #dc2626;
+      --shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      padding-bottom: 48px;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+      color: #fff;
+      padding: 16px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+    }
+
+    .header-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .brand h1 { font-size: 1.25rem; font-weight: 800; letter-spacing: -0.02em; }
+    .brand p { font-size: 0.8rem; opacity: 0.9; }
+
+    .header-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    select, input, textarea, button {
+      font-family: inherit;
+      font-size: 0.9rem;
+      border-radius: 8px;
+    }
+
+    .header-controls select, .header-controls button {
+      border: 1px solid rgba(255,255,255,0.25);
+      background: rgba(255,255,255,0.14);
+      color: #fff;
+      padding: 7px 11px;
+      cursor: pointer;
+    }
+
+    .header-controls select option { color: var(--text); background: #fff; }
+
+    .btn-install {
+      background: var(--accent) !important;
+      color: #0f172a !important;
+      border: none !important;
+      font-weight: 700;
+    }
+
+    .btn-db {
+      background: #16a34a !important;
+      color: #fff !important;
+      border: none !important;
+      font-weight: 700;
+    }
+
+    .container {
+      max-width: 1180px;
+      margin: 20px auto 0;
+      padding: 0 16px;
+    }
+
+    .role-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
+      background: var(--card);
+      padding: 10px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .role-btn {
+      flex: 1 1 160px;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .role-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    .filter-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 12px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--muted);
+      margin-bottom: 5px;
+      text-transform: uppercase;
+    }
+
+    .field select, .field input, .field textarea {
+      width: 100%;
+      padding: 9px 11px;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text);
+    }
+
+    .grid-courses {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 16px;
+    }
+
+    .course-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+    .tag {
+      font-size: 0.73rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+    }
+    .tag.paid { background: #fef9c3; color: #854d0e; }
+    .tag.free { background: #dcfce7; color: #166534; }
+
+    .course-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 4px; }
+    .course-meta { font-size: 0.82rem; color: var(--muted); margin-bottom: 8px; }
+    .course-desc { font-size: 0.9rem; color: #334155; }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 10px 14px;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+    }
+    .btn-primary:hover { background: var(--primary-dark); }
+
+    .btn-secondary {
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 9px 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+      margin-bottom: 18px;
+    }
+
+    .panel h2 { font-size: 1.15rem; margin-bottom: 12px; color: var(--primary-dark); }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .stat-box {
+      background: var(--primary-light);
+      border: 1px solid #99f6e4;
+      padding: 14px;
+      border-radius: 10px;
+    }
+    .stat-box .val { font-size: 1.35rem; font-weight: 800; color: var(--primary-dark); }
+    .stat-box .lbl { font-size: 0.8rem; color: var(--muted); }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 60;
+    }
+    .modal-backdrop.open { display: flex; }
+
+    .modal {
+      background: #fff;
+      border-radius: 14px;
+      max-width: 620px;
+      width: 100%;
+      max-height: 88vh;
+      overflow-y: auto;
+      padding: 22px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+    }
+
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 10px;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 1.3rem;
+      cursor: pointer;
+      color: var(--muted);
+    }
+
+    .lesson-box {
+      background: var(--bg);
+      border-left: 4px solid var(--primary);
+      padding: 14px;
+      border-radius: 8px;
+      margin: 12px 0;
+      white-space: pre-line;
+    }
+
+    .qa-item {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin-top: 8px;
+      background: #fff;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #0f172a;
+      color: #fff;
+      padding: 11px 16px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      z-index: 80;
+      display: none;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+    }
+    .toast.show { display: block; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <h1 id="appTitle">Isoko ry'Ubumenyi</h1>
+        <p id="appSubtitle">Rwanda E-Learning Hub • Primary, Secondary, TVET, RP/IPRCs, UR &amp; Driving</p>
+      </div>
+      <div class="header-controls">
+        <select id="langSelect" aria-label="Language">
+          <option value="rw">Ikinyarwanda</option>
+          <option value="en">English</option>
+          <option value="sw">Kiswahili</option>
+        </select>
+        <button id="dbBtn" class="btn-db" type="button">Supabase: Local</button>
+        <button id="installBtn" class="btn-install" type="button">Install App</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="role-bar">
+      <button class="role-btn active" data-tab="student" type="button" id="tabStudent">Umunyeshuri / Amasomo</button>
+      <button class="role-btn" data-tab="teacher" type="button" id="tabTeacher">Umwarimu / Shyiraho Isomo</button>
+      <button class="role-btn" data-tab="owner" type="button" id="tabOwner">Nyir'Umushinga (MoMo / Revenue)</button>
+    </div>
+
+    <div id="studentView">
+      <div class="filter-card">
+        <div class="field">
+          <label for="instFilter" id="lblInst">Ikigo / Urwego</label>
+          <select id="instFilter">
+            <option value="ALL">Byose (All)</option>
+            <option value="RP / IPRC">Rwanda Polytechnic (IPRC Ngoma, Kigali, Musanze, Tumba, Huye, Karongi, Kitabi, Gishari)</option>
+            <option value="UR">University of Rwanda (UR)</option>
+            <option value="REB / NESA">REB / NESA (Primary &amp; Secondary)</option>
+            <option value="RTB / TVET">RTB (TVET Schools)</option>
+            <option value="Driving">Driving Schools (Amategeko y'Umuhanda)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="progFilter" id="lblProg">Ishami / Icyo Wiga</label>
+          <select id="progFilter">
+            <option value="ALL">Amashami Yose</option>
+            <option value="Culinary Arts & Hospitality">Culinary Arts &amp; Hospitality</option>
+            <option value="ICT & Software">ICT &amp; Software</option>
+            <option value="Civil & Construction">Civil &amp; Construction</option>
+            <option value="Sciences & Math">Sciences &amp; Math</option>
+            <option value="Highway Code">Highway Code (Icyiciro cya A/B)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="searchInput" id="lblSearch">Shakisha Isomo</label>
+          <input id="searchInput" type="text" placeholder="Urugero: Culinary, ICT, Mathematics..." />
+        </div>
+      </div>
+
+      <div id="coursesGrid" class="grid-courses"></div>
+    </div>
+
+    <div id="teacherView" style="display:none;">
+      <div class="panel">
+        <h2 id="teacherHeading">Shyiraho Isomo Rishya (Add New Course)</h2>
+        <form id="addCourseForm" style="display:grid; gap:12px;">
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:12px;">
+            <div class="field">
+              <label>Umutwe w'Isomo (Course Title)</label>
+              <input id="cTitle" required placeholder="Urugero: Introduction to Food Safety & Hygiene" />
+            </div>
+            <div class="field">
+              <label>Umwarimu (Instructor)</label>
+              <input id="cInstructor" required placeholder="Urugero: Chef Uwimana Jean" />
+            </div>
+          </div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(190px, 1fr)); gap:12px;">
+            <div class="field">
+              <label>Ikigo / Urwego</label>
+              <select id="cInst">
+                <option value="RP / IPRC">RP / IPRC</option>
+                <option value="UR">UR</option>
+                <option value="REB / NESA">REB / NESA</option>
+                <option value="RTB / TVET">RTB / TVET</option>
+                <option value="Driving">Driving</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Ishami (Program)</label>
+              <input id="cProg" value="Culinary Arts & Hospitality" required />
+            </div>
+            <div class="field">
+              <label>Igiciro (0 = Ubuntu / RWF)</label>
+              <input id="cPrice" type="number" min="0" value="1000" required />
+            </div>
+          </div>
+          <div class="field">
+            <label>Incamake (Short Description)</label>
+            <input id="cDesc" required placeholder="Sobanura mu magambo make icyo isomo rimaze" />
+          </div>
+          <div class="field">
+            <label>Imiterere y'Isomo (Full Lesson Notes)</label>
+            <textarea id="cContent" rows="4" required placeholder="Andika amasomo arambuye hano..."></textarea>
+          </div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:12px;">
+            <div class="field">
+              <label>Ikibazo cy'Isuzuma (Quiz Question)</label>
+              <input id="cQuizQ" placeholder="Urugero: Ni iki gikwiye gukorwa mbere yo guteka?" />
+            </div>
+            <div class="field">
+              <label>Ibisubizo 3 bitandukanijwe na | (Pipe)</label>
+              <input id="cQuizOpts" placeholder="Gukaraba intoki | Kuryama | Gusohoka" />
+            </div>
+            <div class="field">
+              <label>Igisubizo nyacyo (1, 2, cyangwa 3)</label>
+              <input id="cQuizAns" type="number" min="1" max="3" value="1" />
+            </div>
+          </div>
+          <button class="btn-primary" type="submit">Bika Isomo (Save Course)</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="ownerView" style="display:none;">
+      <div class="panel">
+        <h2>Inyungu n'Ubwishyu (Revenue &amp; Mobile Money Tracker)</h2>
+        <div class="stats-grid">
+          <div class="stat-box">
+            <div class="val" id="statRevenue">0 RWF</div>
+            <div class="lbl">Amafaranga Yose Yishyuwe</div>
+          </div>
+          <div class="stat-box">
+            <div class="val" id="statTxCount">0</div>
+            <div class="lbl">Ubwishyu Bwakozwe (MoMo/Airtel)</div>
+          </div>
+          <div class="stat-box">
+            <div class="val" id="statCourses">0</div>
+            <div class="lbl">Amasomo Ari Ku Rubuga</div>
+          </div>
+        </div>
+        <div id="txList"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Course & Payment / Q&A Modal -->
+  <div id="courseModal" class="modal-backdrop">
+    <div class="modal">
+      <div class="modal-head">
+        <h3 id="modalTitle">Isomo</h3>
+        <button class="close-btn" id="closeCourseModal" type="button">&times;</button>
+      </div>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- Supabase Config & Install Guide Modal -->
+  <div id="infoModal" class="modal-backdrop">
+    <div class="modal">
+      <div class="modal-head">
+        <h3 id="infoModalTitle">Igenamiterere</h3>
+        <button class="close-btn" id="closeInfoModal" type="button">&times;</button>
+      </div>
+      <div id="infoModalBody"></div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script>
+    // Shyira Supabase URL na Anon Key byawe hagati y'utumenyetso twa "" niba ubifite
+    const DEFAULT_SUPABASE_URL = "";
+    const DEFAULT_SUPABASE_KEY = "";
+
+    const I18N = {
+      rw: {
+        title: "Isoko ry'Ubumenyi",
+        subtitle: "Rwanda E-Learning Hub • Primary, Secondary, TVET, RP/IPRCs, UR & Driving",
+        studentTab: "Umunyeshuri / Amasomo",
+        teacherTab: "Umwarimu / Shyiraho Isomo",
+        ownerTab: "Nyir'Umushinga (MoMo / Revenue)",
+        free: "UBUNTU",
+        paid: "PREMIUM",
+        openLesson: "Fungura Isomo",
+        payUnlock: "Ishyura (MoMo/Airtel) Ufungure"
+      },
+      en: {
+        title: "Isoko ry'Ubumenyi",
+        subtitle: "Rwanda E-Learning Hub • Primary, Secondary, TVET, RP/IPRCs, UR & Driving",
+        studentTab: "Student / Courses",
+        teacherTab: "Teacher / Add Course",
+        ownerTab: "Founder (MoMo / Revenue)",
+        free: "FREE",
+        paid: "PREMIUM",
+        openLesson: "Open Course",
+        payUnlock: "Pay (MoMo/Airtel) to Unlock"
+      },
+      sw: {
+        title: "Isoko ry'Ubumenyi",
+        subtitle: "Rwanda E-Learning Hub • Msingi, Sekondari, TVET, RP/IPRCs, UR & Udereva",
+        studentTab: "Mwanafunzi / Masomo",
+        teacherTab: "Mwalimu / Weka Somo",
+        ownerTab: "Mwanzilishi (MoMo / Mapato)",
+        free: "BURE",
+        paid: "PREMIUM",
+        openLesson: "Fungua Somo",
+        payUnlock: "Lipa (MoMo/Airtel) Kufungua"
+      }
+    };
+
+    const SEED_COURSES = [
+      {
+        id: "c1",
+        title: "Culinary Arts: Food Safety & Mise en Place",
+        institution: "RP / IPRC",
+        level: "Advanced Diploma",
+        program: "Culinary Arts & Hospitality",
+        price: 0,
+        instructor: "Chef Mugisha Eric",
+        description: "Ibihamya by'isuku mu gikoni, gutegura ibikoresho mbere yo guteka (mise en place), no kwirinda kwandura kw'ibiribwa.",
+        content: "1. Isuku y'umutetsi n'intoki mbere yo gukora ku biribwa.\n2. Gutandukanya ibikoresho by'inyama mbisi n'iby'imboga cyangwa ibitetse.\n3. Kugenzura ubushyuhe (temperature control) kugira ngo mikorobe zidatera indwara.",
+        quiz_question: "Ni iki cya mbere gikorwa mbere yo gutangira gutegura amafunguro?",
+        quiz_options: ["Gukaraba intoki neza n'isabune", "Gushyushya isafuriya gusa", "Gufunga amadirishya"],
+        quiz_answer: 0
+      },
+      {
+        id: "c2",
+        title: "Web & Database Fundamentals for TVET / RP",
+        institution: "RP / IPRC",
+        level: "Diploma / Bachelor",
+        program: "ICT & Software",
+        price: 1000,
+        instructor: "Ing. Uwamahoro Diane",
+        description: "Imikorere ya HTML, CSS, JavaScript, na Relational Databases (SQL) mu kubaka za web apps zigezweho.",
+        content: "1. HTML itanga imiterere y'urupapuro, CSS igashyiraho ubwiza, na JavaScript igatanga imikorere.\n2. SQL ikoreshwa mu kurema tables, kubika, no gukuramo amakuru neza.",
+        quiz_question: "Ni uruhe rurimi rukoreshwa mu kubaza no gucunga amakuru muri Database?",
+        quiz_options: ["SQL", "MP3", "PNG"],
+        quiz_answer: 0
+      },
+      {
+        id: "c3",
+        title: "REB / NESA Mathematics & Problem Solving",
+        institution: "REB / NESA",
+        level: "Secondary",
+        program: "Sciences & Math",
+        price: 0,
+        instructor: "Tr. Habimana Patrick",
+        description: "Imyitozo ngiro y'imibare (Algebra, Functions, Probability) ifasha abanyeshuri kwitegura ibizamini bya Leta.",
+        content: "1. Soma ikibazo witonze wandike ibizwi (givens) n'icyo usabwa gushaka.\n2. Koresha uburyo bw'intambwe ku yindi kandi usubiremo igisubizo cyawe.",
+        quiz_question: "Niba 2x + 4 = 12, ni uwuhe mubare uhagarariye x?",
+        quiz_options: ["4", "8", "6"],
+        quiz_answer: 0
+      },
+      {
+        id: "c4",
+        title: "Amategeko y'Umuhanda: Ibyapa n'Uburinzi",
+        institution: "Driving",
+        level: "Provisional / License",
+        program: "Highway Code (Icyiciro cya A/B)",
+        price: 1500,
+        instructor: "Instr. Niyonsenga Claude",
+        description: "Amategeko y'ibanze y'umuhanda, ibyapa biburira n'ibitegeka, hamwe n'imyitwarire y'umushoferi mu muhanda.",
+        content: "1. Umuhanda ugenewe abanyamaguru (zebra crossing) usaba umushoferi kugabanya umuvuduko no kubahiriza abanyamaguru.\n2. Icyapa cy'uruziga rutukura akenshi kirabuza cyangwa kigategeka guhagarara.",
+        quiz_question: "Umushoferi akwiye gukora iki yegereye abanyamaguru bambukira mu nzira yabo?",
+        quiz_options: ["Kugabanya umuvuduko akabaha inzira", "Kuvuza ihoni cyane akabaca imbere", "Kwihutisha imodoka"],
+        quiz_answer: 0
+      }
+    ];
+
+    let state = {
+      lang: localStorage.getItem("hub_lang") || "rw",
+      sbUrl: localStorage.getItem("hub_sb_url") || DEFAULT_SUPABASE_URL,
+      sbKey: localStorage.getItem("hub_sb_key") || DEFAULT_SUPABASE_KEY,
+      courses: JSON.parse(localStorage.getItem("hub_courses") || "null") || SEED_COURSES,
+      questions: JSON.parse(localStorage.getItem("hub_questions") || "[]"),
+      transactions: JSON.parse(localStorage.getItem("hub_transactions") || "[]"),
+      unlockedIds: JSON.parse(localStorage.getItem("hub_unlocked") || '["c1","c3"]'),
+      deferredPrompt: null
+    };
+
+    function showToast(msg) {
+ 
